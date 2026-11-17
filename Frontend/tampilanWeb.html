@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Kalkulus - Limit & Turunan</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Load MathJax buat nampilin rumus cantik -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- Load Plotly buat grafik -->
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Kalkulator Limit & Turunan</h1>
+        
+        <!-- Form Input -->
+        <div class="input-section">
+            <label for="fungsi">Masukkan Fungsi f(x):</label>
+            <input type="text" id="fungsi" placeholder="Contoh: 3x^2 + 2x" autocomplete="off">
+            
+            <div class="opsi">
+                <label>
+                    <input type="radio" name="tipe" value="limit" checked onchange="toggleForm()"> Limit
+                </label>
+                <label>
+                    <input type="radio" name="tipe" value="turunan" onchange="toggleForm()"> Turunan
+                </label>
+            </div>
+
+            <!-- Input Khusus Limit -->
+            <div id="form-limit">
+                <label>Mendekati (x ->):</label>
+                <input type="text" id="titik" placeholder="Contoh: 2 atau 0" value="0">
+                <select id="arah">
+                    <option value="both">Dua Arah</option>
+                    <option value="+">Dari Kanan (+)</option>
+                    <option value="-">Dari Kiri (-)</option>
+                </select>
+            </div>
+
+            <!-- Input Khusus Turunan -->
+            <div id="form-turunan" style="display: none;">
+                <label>Orde Turunan (n):</label>
+                <input type="number" id="orde" value="1" min="1" max="10">
+            </div>
+
+            <button id="btn-hitung" onclick="hitung()">Hitung Sekarang</button>
+        </div>
+
+        <!-- Area Hasil & Langkah -->
+        <div id="hasil-section" style="display: none;">
+            <h2>Hasil Akhir:</h2>
+            <div id="hasil-akhir" class="math-display"></div>
+            
+            <h3>Langkah Pengerjaan:</h3>
+            <ul id="langkah-list"></ul>
+        </div>
+
+        <!-- Area Grafik -->
+        <div id="grafik-section" style="display: none;">
+            <h2>Grafik Fungsi:</h2>
+            <div id="grafik"></div>
+        </div>
+    </div>
+
+    <!-- Panggil file JavaScript kita -->
+    <script src="js/main.js"></script>
+</body>
+</html>
