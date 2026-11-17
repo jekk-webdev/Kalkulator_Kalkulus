@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from ..utils.parser import parse_expression
 from ..utils.validator import validate_derivative_order
 from ..services.derivative_service import hitung_turunan
-from ..services.steps_derivative import langkah_turunan
+from ..services.step_derivative import langkah_turunan
 from ..database import simpan_riwayat
 
 derivative_bp = Blueprint('derivative_bp', __name__)
