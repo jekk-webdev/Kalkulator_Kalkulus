@@ -18,7 +18,11 @@ def langkah_limit(expr: sp.Expr, variabel: str, titik: sp.Expr, arah: str) -> li
             langkah.append(f"Hasil substitusi: {substitusi}")
             
             # Kalau hasilnya bukan 0/0, berarti selesai
-            if substitusi != sp.nan and substitusi != sp.zoo:
+            # Kalau hasilnya 0/0 (nan) atau tak hingga (zoo), jangan tampilkan angkanya
+            if substitusi == sp.nan or substitusi == sp.zoo:
+                langkah.pop() # Hapus baris "Hasil substitusi: nan" tadi
+                langkah.pop() # Hapus baris "Langkah 1: Substitusi..."
+            else:
                 return langkah
     except:
         pass
