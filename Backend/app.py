@@ -29,7 +29,7 @@ app.register_blueprint(derivative_bp)
 # Route utama untuk nampilin index.html
 @app.route("/")
 def index():
-    return send_from_directory(FRONTEND_DIR, "index.html")
+    return send_from_directory(FRONTEND_DIR, "tampilanWeb.html")
 
 if __name__ == "__main__":
     # Bikin database kalau belum ada
