@@ -69,8 +69,44 @@ async function hitung() {
 }
 
 // Placeholder untuk grafik Plotly (kita sederhanakan dulu)
-function gambarGrafik(fungsi, hasil) {
+function gambarGrafik(fungsi) {
     document.getElementById('grafik-section').style.display = 'block';
-    // Nanti kita bikin grafik beneran di tahap selanjutnya
-    document.getElementById('grafik').innerHTML = "<p style='text-align:center; color:gray;'>Grafik akan dirender di sini.</p>";
+    
+    const xValues = [];
+    const yValues = [];
+    
+    // Bikin rentang X dari -10 sampai 10
+    for (let x = -10; x <= 10; x += 0.2) {
+        xValues.push(x);
+        try {
+            // Ubah input user (misal 3x^2) jadi format JS (3*x**2)
+            let safeFungsi = fungsi.replace(/\^/g, '**').replace(/(\d)([a-zA-Z(])/g, '$1*$2');
+            let expr = safeFungsi.replace(/x/g, `(${x})`);
+            
+            // Hitung nilai y
+            let y = Function(`"use strict"; return (${expr})`)();
+            yValues.push(y);
+        } catch (e) {
+            yValues.push(null); 
+        }
+    }
+
+    const trace = {
+        x: xValues,
+        y: yValues,
+        type: 'scatter',
+        mode: 'lines',
+        name: 'f(x)',
+        line: { color: '#3498db', width: 3 }
+    };
+
+    const layout = {
+        title: `Grafik Fungsi: y = ${fungsi}`,
+        xaxis: { title: 'Sumbu X', zeroline: true },
+        yaxis: { title: 'Sumbu Y', zeroline: true },
+        margin: { t: 40 }
+    };
+
+    // Gambar pakai Plotly
+    Plotly.newPlot('grafik', [trace], layout);
 }

@@ -6,34 +6,39 @@ import os
 import sys
 from flask import Flask, send_from_directory
 from flask_cors import CORS
+from dotenv import load_dotenv  # <--- Import dotenv
 
-# Tambahkan folder root (parent dari 'Backend') ke sys.path
-# Biar Flask bisa baca folder 'Frontend' dengan mudah
+# 1. Muat file .env
+load_dotenv()
+
+# 2. Tentukan folder Frontend
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FRONTEND_DIR = os.path.join(BASE_DIR, "Frontend")
 
-# Import routes dan database
+# 3. Import dari folder Backend
 from Backend.database import init_db
 from Backend.routes.limit_route import limit_bp
 from Backend.routes.derivative_route import derivative_bp
 
-# Inisialisasi Flask
-# static_folder diarahkan ke frontend biar bisa buka HTML/CSS/JS
+# 4. Inisialisasi Flask
 app = Flask(__name__, static_folder=FRONTEND_DIR, static_url_path="")
-CORS(app) # Izinkan request dari domain berbeda (berguna buat localhost)
+CORS(app)
 
-# Daftarkan Blueprint (Routes)
+# 5. Daftarkan routes
 app.register_blueprint(limit_bp)
 app.register_blueprint(derivative_bp)
 
-# Route utama untuk nampilin index.html
+# 6. Halaman utama
 @app.route("/")
 def index():
     return send_from_directory(FRONTEND_DIR, "tampilanWeb.html")
 
+# 7. Nyalakan server
 if __name__ == "__main__":
-    # Bikin database kalau belum ada
-    init_db()
-    print("Server berjalan di http://127.0.0.1:5000")
-    # Jalankan server
-    app.run(debug=True, port=5000)
+    init_db() # Bikin database kalau belum ada
+    
+    # Ambil port dari .env, kalau nggak ada pakai 5000
+    port = int(os.getenv("PORT", 5000))
+    
+    print(f"Server berjalan di http://127.0.0.1:{port}")
+    app.run(debug=True, port=port)
